@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim - Güncel Haberler</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .page-transition {
+            opacity: 0.7;
+        }
+        
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .site-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: #e94560;
+        }
+        
+        nav ul li a.active {
+            background-color: #e94560;
+        }
+        
+        .sayfa-baslik {
+            background-color: #e94560;
+            color: white;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* İletişim Sayfası Stilleri */
+        .iletisim-bolumu, .iletisim-bilgileri, .harita {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .iletisim-bolumu h2, .iletisim-bilgileri h2, .harita h2 {
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e94560;
+        }
+        
+        .form-grup {
+            margin-bottom: 20px;
+        }
+        
+        .form-grup label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-grup input, .form-grup select, .form-grup textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-grup textarea {
+            resize: vertical;
+        }
+        
+        button[type="submit"] {
+            background-color: #e94560;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #1a1a2e;
+        }
+        
+        .bilgi {
+            margin-bottom: 15px;
+        }
+        
+        .bilgi h3 {
+            color: #e94560;
+            margin-bottom: 5px;
+        }
+        
+        .bilgi p {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .harita-cerceve {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .harita-gorsel {
+            width: 100%;
+            display: block;
+        }
+        
+        footer {
+            background-color: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bölümü -->
+    <header>
+        <div class="container">
+            <div class="site-title">GÜNCEL HABERLER</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="gundem.html">Gündem</a></li>
+                    <li><a href="sondakika.html">Son Dakika</a></li>
+                    <li><a href="forum.html">Forum</a></li>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Ana İçerik -->
+    <main class="container">
+        <h1 class="sayfa-baslik">İletişim & Öneriler</h1>
+        
+        <!-- İletişim Formu -->
+        <section class="iletisim-bolumu">
+            <h2>Bize Ulaşın</h2>
+            <form id="iletisim-formu">
+                <div class="form-grup">
+                    <label for="ad">Adınız Soyadınız:</label>
+                    <input type="text" id="ad" name="ad" required>
+                </div>
+                
+                <div class="form-grup">
+                    <label for="email">E-posta Adresiniz:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-grup">
+                    <label for="konu">Konu:</label>
+                    <select id="konu" name="konu">
+                        <option value="oneri">Öneri/Görüş</option>
+                        <option value="haber">Haber İhbarı</option>
+                        <option value="reklam">Reklam</option>
+                        <option value="sikayet">Şikayet</option>
+                        <option value="diger">Diğer</option>
+                    </select>
+                </div>
+                
+                <div class="form-grup">
+                    <label for="mesaj">Mesajınız:</label>
+                    <textarea id="mesaj" name="mesaj" rows="5" required></textarea>
+                </div>
+                
+                <button type="submit">Gönder</button>
+            </form>
+        </section>
+        
+        <!-- İletişim Bilgileri -->
+        <section class="iletisim-bilgileri">
+            <h2>İletişim Bilgilerimiz</h2>
+            <div class="bilgi">
+                <h3>Adres:</h3>
+                <p>Atatürk Bulvarı No: 123 Kat: 5, Çankaya/Ankara</p>
+            </div>
+            
+            <div class="bilgi">
+                <h3>Telefon:</h3>
+                <p>+90 312 123 45 67</p>
+            </div>
+            
+            <div class="bilgi">
+                <h3>E-posta:</h3>
+                <p>info@guncelhaberler.com</p>
+            </div>
+            
+            <div class="bilgi">
+                <h3>Çalışma Saatleri:</h3>
+                <p>Haftaiçi: 09:00-18:00</p>
+                <p>Haftasonu: 10:00-16:00</p>
+            </div>
+        </section>
+        
+        <!-- Harita -->
+        <section class="harita">
+            <h2>Harita</h2>
+            <div class="harita-cerceve">
+                <img src="https://via.placeholder.com/600x300?text=Harita+Görünümü" alt="Harita" class="harita-gorsel">
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer Bölümü -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Güncel Haberler. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+    <!-- JavaScript Dosyaları -->
+    <script src="js/main.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>

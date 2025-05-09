@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haber Detay - Güncel Haberler</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .page-transition {
+            opacity: 0.7;
+        }
+        
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .site-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: #e94560;
+        }
+        
+        .haber-detay {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .haber-baslik {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #1a1a2e;
+        }
+        
+        .haber-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .haber-tarih {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .kategori-etiketi {
+            display: inline-block;
+            background-color: #e94560;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        .haber-resim-buyuk {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+        
+        .haber-icerik p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .benzer-haberler {
+            margin-top: 40px;
+        }
+        
+        .benzer-haberler h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #1a1a2e;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e94560;
+        }
+        
+        .benzer-liste {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .benzer-haber {
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .benzer-haber:hover {
+            transform: translateY(-5px);
+        }
+        
+        .benzer-haber img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .benzer-haber-baslik {
+            padding: 12px;
+            font-size: 16px;
+            color: #1a1a2e;
+        }
+        
+        .geri-btn {
+            display: inline-block;
+            background-color: #1a1a2e;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .geri-btn:hover {
+            background-color: #e94560;
+        }
+        
+        .yazar-bilgisi {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .yazar-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        
+        .yazar-isim {
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+        
+        .yazar-unvan {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .sosyal-paylas {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sosyal-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e94560;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .sosyal-btn:hover {
+            background-color: #1a1a2e;
+        }
+        
+        footer {
+            background-color: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin-bottom: 10px;
+            }
+            
+            .haber-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bölümü -->
+    <header>
+        <div class="container">
+            <div class="site-title">GÜNCEL HABERLER</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="gundem.html">Gündem</a></li>
+                    <li><a href="sondakika.html">Son Dakika</a></li>
+                    <li><a href="forum.html">Forum</a></li>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Ana İçerik -->
+    <main class="container">
+        <div class="haber-detay">
+            <h1 class="haber-baslik" id="haber-baslik">Haber Başlığı</h1>
+            
+            <div class="haber-meta">
+                <div>
+                    <span class="kategori-etiketi" id="haber-kategori">Kategori</span>
+                </div>
+                <div class="haber-tarih" id="haber-tarih">15 Mart 2025, 14:30</div>
+            </div>
+            
+            <img src="https://via.placeholder.com/800x500?text=Haber+Görsel" alt="Haber Görsel" class="haber-resim-buyuk" id="haber-resim">
+            
+            <div class="yazar-bilgisi">
+                <img src="https://via.placeholder.com/50x50?text=Yazar" alt="Yazar" class="yazar-avatar">
+                <div>
+                    <div class="yazar-isim">Ahmet Yılmaz</div>
+                    <div class="yazar-unvan">Ekonomi Editörü</div>
+                </div>
+            </div>
+            
+            <div class="haber-icerik" id="haber-icerik">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat lectus ac nisi fermentum, non tincidunt urna tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec et enim vel nulla aliquam tempor. Nulla facilisi. Mauris vestibulum risus ac enim commodo, id volutpat nibh bibendum.</p>
+                
+                <p>Curabitur at purus vel nisi malesuada tincidunt. Integer efficitur, neque vel varius ultrices, justo nisi vestibulum eros, vel posuere sem leo vel arcu. Sed tincidunt ligula id enim consequat, vel varius nisi facilisis. Donec et cursus sem. Sed ut eros auctor, finibus nulla at, consectetur neque. Nulla facilisi. Suspendisse dignissim ultrices enim, id condimentum quam interdum in.</p>
+                
+                <p>Maecenas nec metus a dui egestas dapibus. Aliquam erat volutpat. Vivamus varius sit amet nisi vel accumsan. Sed euismod orci vel diam tempor, non laoreet lorem placerat. Mauris a libero in orci venenatis faucibus. Phasellus tincidunt, lectus vel interdum fermentum, lorem metus accumsan velit, ut ultrices nisi mauris vel erat.</p>
+                
+                <p>Nulla facilisi. Phasellus venenatis, nunc vel sagittis pulvinar, arcu tellus varius arcu, ut faucibus nunc felis vel nisi. Nulla facilisi. Phasellus at turpis vel nisi maximus dapibus. Nulla facilisi. Curabitur tristique, sem vel finibus tincidunt, tortor nisl varius eros, vel varius nisi ligula vel nunc.</p>
+            </div>
+            
+            <div class="sosyal-paylas">
+                <a href="#" class="sosyal-btn">f</a>
+                <a href="#" class="sosyal-btn">t</a>
+                <a href="#" class="sosyal-btn">in</a>
+                <a href="#" class="sosyal-btn">✉</a>
+            </div>
+            
+            <a href="index.html" class="geri-btn">Ana Sayfaya Dön</a>
+        </div>
+        
+        <div class="benzer-haberler">
+            <h3>Benzer Haberler</h3>
+            <div class="benzer-liste">
+                <div class="benzer-haber" onclick="haberDetay(2)">
+                    <img src="/api/placeholder/300/200" alt="Benzer Haber">
+                    <div class="benzer-haber-baslik">Şampiyonlar Ligi'nde çeyrek final eşleşmeleri belli oldu</div>
+                </div>
+                <div class="benzer-haber" onclick="haberDetay(3)">
+                    <img src="/api/placeholder/300/200" alt="Benzer Haber">
+                    <div class="benzer-haber-baslik">Yeni nesil yapay zeka modelleri tanıtıldı</div>
+                </div>
+                <div class="benzer-haber" onclick="haberDetay(4)">
+                    <img src="/api/placeholder/300/200" alt="Benzer Haber">
+                    <div class="benzer-haber-baslik">Yeni grip aşısı tüm hastanelerde ücretsiz yapılacak</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer Bölümü -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Güncel Haberler. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+    
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // URL'den haber ID'sini al
+            const urlParams = new URLSearchParams(window.location.search);
+            const haberId = urlParams.get('id') || 1;
+            
+            // Haber verileri - sadece başlık ve içerik
+            const haberler = {
+                1: {
+                    baslik: "Merkez Bankası faiz kararını açıkladı",
+                    kategori: "Ekonomi",
+                    tarih: "15 Mart 2025, 14:30",
+                    icerik: "Merkez Bankası, politika faizini değiştirmeyerek %30 seviyesinde sabit tuttu. Karar, piyasa beklentilerine paralel geldi."
+                },
+                2: {
+                    baslik: "Şampiyonlar Ligi'nde çeyrek final eşleşmeleri belli oldu",
+                    kategori: "Spor",
+                    tarih: "15 Mart 2025, 12:15",
+                    icerik: "UEFA Şampiyonlar Ligi'nde çeyrek final eşleşmeleri bugün belli oldu. Manchester City-Real Madrid, Bayern-PSG, Arsenal-Barcelona, Inter-Dortmund eşleşmeleri gerçekleşti."
+                },
+                3: {
+                    baslik: "Yeni nesil yapay zeka modelleri tanıtıldı",
+                    kategori: "Teknoloji",
+                    tarih: "14 Mart 2025, 16:45",
+                    icerik: "Teknoloji devleri, yeni nesil yapay zeka modellerini tanıttı. Bu modeller, önceki versiyonlara göre çok daha gelişmiş yeteneklere sahip."
+                }
+            };
+            
+            // Haber içeriğini sayfaya yerleştir
+            const haber = haberler[haberId];
+            if (haber) {
+                document.getElementById("haber-baslik").textContent = haber.baslik;
+                document.getElementById("haber-kategori").textContent = haber.kategori;
+                document.getElementById("haber-tarih").textContent = haber.tarih;
+                document.getElementById("haber-icerik").innerHTML = `<p>${haber.icerik}</p>`;
+                document.title = haber.baslik + " - Güncel Haberler";
+            }
+        });
+
+        // Benzer haberlere tıklama
+        function haberDetay(id) {
+            window.location.href = `haber-detay.html?id=${id}`;
+        }
+
+    </script>   
+    <!-- JavaScript Dosyaları -->
+    <script src="js/main.js"></script>
+    <script src="js/haber-detay.js"></script>
+</body>
+</html>
