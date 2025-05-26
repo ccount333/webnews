@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - Güncel Haberler</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .page-transition {
+            opacity: 0.7;
+        }
+        
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .site-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: #e94560;
+        }
+        
+        nav ul li a.active {
+            background-color: #e94560;
+        }
+        
+        .sayfa-baslik {
+            background-color: #e94560;
+            color: white;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .forum-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .forum-baslik {
+            font-size: 22px;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e94560;
+        }
+        
+        .konu-olustur {
+            background-color: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .konu-olustur:hover {
+            background-color: #d13354;
+        }
+        
+        .konu-form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .konu-form.active {
+            display: block;
+        }
+        
+        .form-grup {
+            margin-bottom: 15px;
+        }
+        
+        .form-grup label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-grup input,
+        .form-grup textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-grup textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-butonlar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .form-buton {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .form-buton.gonder {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .form-buton.iptal {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .form-buton:hover {
+            opacity: 0.9;
+        }
+        
+        .konular-listesi {
+            margin-top: 20px;
+        }
+        
+        .konu {
+            background-color: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .konu:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .konu-baslik {
+            font-size: 18px;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        
+        .konu-bilgi {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .konu-detay {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .konu-detay.active {
+            display: block;
+        }
+        
+        .konu-icerik {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .yorumlar-baslik {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #1a1a2e;
+        }
+        
+        .yorumlar {
+            margin-bottom: 20px;
+        }
+        
+        .yorum {
+            background-color: #f9f9f9;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .yorum-baslik {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .yorum-tarih {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .yorum-icerik {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #444;
+        }
+        
+        .yorum-form {
+            margin-top: 15px;
+        }
+        
+        .basari-mesaji {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            background-color: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin-bottom: 10px;
+            }
+            
+            .konu-bilgi {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bölümü -->
+    <header>
+        <div class="container">
+            <div class="site-title">GÜNCEL HABERLER</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="gundem.html">Gündem</a></li>
+                    <li><a href="sondakika.html">Son Dakika</a></li>
+                    <li><a href="forum.html">Forum</a></li>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Ana İçerik -->
+    <main class="container">
+        <div class="sayfa-baslik">FORUM</div>
+        
+        <!-- Forum Bölümü -->
+        <div class="forum-container">
+            <h2 class="forum-baslik">Güncel Konular</h2>
+            
+            <button class="konu-olustur" id="konu-olustur-btn">Yeni Konu Oluştur</button>
+            
+            <!-- Konu Oluşturma Formu -->
+            <div class="konu-form" id="konu-form">
+                <div class="form-grup">
+                    <label for="konu-baslik">Konu Başlığı</label>
+                    <input type="text" id="konu-baslik" placeholder="Konu başlığını giriniz">
+                </div>
+                
+                <div class="form-grup">
+                    <label for="konu-icerik">Konu İçeriği</label>
+                    <textarea id="konu-icerik" placeholder="Konu içeriğini giriniz"></textarea>
+                </div>
+                
+                <div class="form-grup">
+                    <label for="konu-yazar">İsminiz</label>
+                    <input type="text" id="konu-yazar" placeholder="İsminizi giriniz">
+                </div>
+                
+                <div class="form-butonlar">
+                    <button class="form-buton iptal" id="konu-iptal">İptal</button>
+                    <button class="form-buton gonder" id="konu-gonder">Gönder</button>
+                </div>
+            </div>
+            
+            <!-- Konular Listesi -->
+            <div class="konular-listesi" id="konular-listesi">
+                <!-- Konular JavaScript ile eklenecek -->
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer Bölümü -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Güncel Haberler. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+    
+    <script src="js/main.js"></script>
+    <script src="js/forum.js"></script>
+    <script src="js/chatbot.js"></script>
+</body>
+</html>
