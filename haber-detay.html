@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haber Detay - Güncel Haberler</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .site-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: #e94560;
+        }
+        
+        .haber-detay {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .haber-baslik {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #1a1a2e;
+        }
+        
+        .haber-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .haber-tarih {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .kategori-etiketi {
+            display: inline-block;
+            background-color: #e94560;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        .haber-resim-buyuk {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+        
+        .haber-icerik p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .benzer-haberler {
+            margin-top: 40px;
+        }
+        
+        .benzer-haberler h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #1a1a2e;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e94560;
+        }
+        
+        .benzer-liste {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .benzer-haber {
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .benzer-haber:hover {
+            transform: translateY(-5px);
+        }
+        
+        .benzer-haber img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .benzer-haber-baslik {
+            padding: 12px;
+            font-size: 16px;
+            color: #1a1a2e;
+        }
+        
+        .geri-btn {
+            display: inline-block;
+            background-color: #1a1a2e;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .geri-btn:hover {
+            background-color: #e94560;
+        }
+        
+        .yazar-bilgisi {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .yazar-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        
+        .yazar-isim {
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+        
+        .yazar-unvan {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .sosyal-paylas {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sosyal-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e94560;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .sosyal-btn:hover {
+            background-color: #1a1a2e;
+        }
+        
+        footer {
+            background-color: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin-bottom: 10px;
+            }
+            
+            .haber-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bölümü -->
+    <header>
+        <div class="container">
+            <div class="site-title">GÜNCEL HABERLER</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="gundem.html">Gündem</a></li>
+                    <li><a href="sondakika.html">Son Dakika</a></li>
+                    <li><a href="forum.html">Forum</a></li>
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="#">İletişim</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Ana İçerik -->
+    <main class="container">
+        <div class="haber-detay">
+            <h1 class="haber-baslik" id="haber-baslik">HABERLER
+</h1>
+            
+            <div class="haber-meta">
+                <div>
+                    <span class="kategori-etiketi" id="haber-kategori">Kategori</span>
+                </div>
+                <div class="haber-tarih" id="haber-tarih">15 Mart 2025, 14:30</div>
+            </div>
+            
+            <img src="/api/placeholder/800/500" alt="Haber Görsel" class="haber-resim-buyuk" id="haber-resim">
+            
+            <div class="yazar-bilgisi">
+                <img src="data:image/jpeg;base64,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" alt="Yazar" class="yazar-avatar">
+                <div>
+                    <div class="yazar-isim">Ahmet Yılmaz</div>
+                    <div class="yazar-unvan">Ekonomi Editörü</div>
+                </div>
+            </div>
+            
+            <div class="haber-icerik" id="haber-icerik">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat lectus ac nisi fermentum, non tincidunt urna tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec et enim vel nulla aliquam tempor. Nulla facilisi. Mauris vestibulum risus ac enim commodo, id volutpat nibh bibendum.</p>
+                
+                <p>Curabitur at purus vel nisi malesuada tincidunt. Integer efficitur, neque vel varius ultrices, justo nisi vestibulum eros, vel posuere sem leo vel arcu. Sed tincidunt ligula id enim consequat, vel varius nisi facilisis. Donec et cursus sem. Sed ut eros auctor, finibus nulla at, consectetur neque. Nulla facilisi. Suspendisse dignissim ultrices enim, id condimentum quam interdum in.</p>
+                
+                <p>Maecenas nec metus a dui egestas dapibus. Aliquam erat volutpat. Vivamus varius sit amet nisi vel accumsan. Sed euismod orci vel diam tempor, non laoreet lorem placerat. Mauris a libero in orci venenatis faucibus. Phasellus tincidunt, lectus vel interdum fermentum, lorem metus accumsan velit, ut ultrices nisi mauris vel erat.</p>
+                
+                <p>Nulla facilisi. Phasellus venenatis, nunc vel sagittis pulvinar, arcu tellus varius arcu, ut faucibus nunc felis vel nisi. Nulla facilisi. Phasellus at turpis vel nisi maximus dapibus. Nulla facilisi. Curabitur tristique, sem vel finibus tincidunt, tortor nisl varius eros, vel varius nisi ligula vel nunc.</p>
+            </div>
+            
+            <div class="sosyal-paylas">
+                <a href="#" class="sosyal-btn">f</a>
+                <a href="#" class="sosyal-btn">t</a>
+                <a href="#" class="sosyal-btn">in</a>
+                <a href="#" class="sosyal-btn">✉</a>
+            </div>
+            
+            <a href="index.html" class="geri-btn">Ana Sayfaya Dön</a>
+        </div>
+        
+        <div class="benzer-haberler">
+            <h3>Benzer Haberler</h3>
+            <div class="benzer-liste">
+                <div class="benzer-haber" onclick="haberDetay(2)">
+                    <img src="/api/placeholder/300/200" alt="Benzer Haber">
+                    <div class="benzer-haber-baslik">Şampiyonlar Ligi'nde çeyrek final eşleşmeleri belli oldu</div>
+                </div>
+                <div class="benzer-haber" onclick="haberDetay(3)">
+                    <img src="/api/placeholder/300/200" alt="Benzer Haber">
+                    <div class="benzer-haber-baslik">Yeni nesil yapay zeka modelleri tanıtıldı</div>
+                </div>
+                <div class="benzer-haber" onclick="haberDetay(4)">
+                    <img src="/api/placeholder/300/200" alt="Benzer Haber">
+                    <div class="benzer-haber-baslik">Yeni grip aşısı tüm hastanelerde ücretsiz yapılacak</div>
+                </div>
+                <div class="benzer-haber" onclick="haberDetay(5)">
+                    <img src="/api/placeholder/300/200" alt="Benzer Haber">
+                    <div class="benzer-haber-baslik">Elektrikli araçlar için şarj istasyonu sayısı artıyor</div>
+                </div>
+                <div class="benzer-haber" onclick="haberDetay(6)">
+                    <img src="/api/placeholder/300/200" alt="Benzer Haber">
+                    <div class="benzer-haber-baslik">Yerli otomobil üretiminde yeni rekor</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer Bölümü -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Güncel Haberler. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+    
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // URL'den haber ID'sini al
+            const urlParams = new URLSearchParams(window.location.search);
+            const haberId = urlParams.get('id') || 1;
+            
+            // Haber verileri - sadece başlık ve içerik
+            const haberler = {
+                1: {
+                    baslik: "Merkez Bankası faiz kararını açıkladı",
+                    kategori: "Ekonomi",
+                    tarih: "15 Mart 2025, 14:30",
+                    icerik: "Merkez Bankası, politika faizini değiştirmeyerek %30 seviyesinde sabit tuttu. Karar, piyasa beklentilerine paralel geldi."
+                },
+                2: {
+                    baslik: "Şampiyonlar Ligi'nde çeyrek final eşleşmeleri belli oldu",
+                    kategori: "Spor",
+                    tarih: "15 Mart 2025, 12:15",
+                    icerik: "UEFA Şampiyonlar Ligi'nde çeyrek final eşleşmeleri bugün belli oldu. Manchester City-Real Madrid, Bayern-PSG, Arsenal-Barcelona, Inter-Dortmund eşleşmeleri gerçekleşti."
+                },
+                3: {
+                    baslik: "Yeni nesil yapay zeka modelleri tanıtıldı",
+                    kategori: "Teknoloji",
+                    tarih: "14 Mart 2025, 16:45",
+                    icerik: "Teknoloji devleri, yeni nesil yapay zeka modellerini tanıttı. Bu modeller, önceki versiyonlara göre çok daha gelişmiş yeteneklere sahip."
+                },
+                4: {
+                    baslik: "Yeni grip aşısı tüm hastanelerde ücretsiz yapılacak",
+                    kategori: "Sağlık",
+                    tarih: "14 Mart 2025, 10:30",
+                    icerik: "Sağlık Bakanlığı, yeni geliştirilen grip aşısının tüm devlet hastanelerinde ücretsiz olarak uygulanacağını duyurdu. Özellikle risk grubundaki vatandaşların bir an önce aşı olmalarını tavsiye edildi."
+                },
+                5: {
+                    baslik: "Uluslararası Film Festivali başlıyor",
+                    kategori: "Teknoloji",
+                    tarih: "14 Mart 2025, 09:15",
+                    icerik: "Bu yıl 25.si düzenlenecek olan Uluslararası Film Festivali, 20 Ekim'de başlıyor. Festivalde 50'den fazla ülkeden 200 film gösterilecek."
+                },
+                6: {
+                    baslik: "Yeni eğitim-öğretim yılı takvimi açıklandı",
+                    kategori: "Ekonomi",
+                    tarih: "13 Mart 2025, 16:20",
+                    icerik: "Milli Eğitim Bakanlığı, 2025-2026 eğitim-öğretim yılı takvimini açıkladı. Yeni dönemde okullar 15 Eylül'de açılacak ve 10 Haziran'da kapanacak."
+                }
+            };
+            
+            // Haber içeriğini sayfaya yerleştir
+            const haber = haberler[haberId];
+            if (haber) {
+                document.getElementById("haber-baslik").textContent = haber.baslik;
+                document.getElementById("haber-kategori").textContent = haber.kategori;
+                document.getElementById("haber-tarih").textContent = haber.tarih;
+                document.getElementById("haber-icerik").innerHTML = `<p>${haber.icerik}</p>`;
+                document.title = haber.baslik + " - Güncel Haberler";
+            }
+        });
+
+        // Benzer haberlere tıklama
+        function haberDetay(id) {
+            window.location.href = `haber-detay.html?id=${id}`;
+        }
+
+    </script>   
+</body>
+</html>
